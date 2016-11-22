@@ -12,18 +12,63 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="bkoruznjak.from.hr.androidnarodniconcept.SecondTestActivity">
 
-
-        <bkoruznjak.from.hr.androidnarodniconcept.SecondCustomSurfaceView
-            android:id="@+id/surfaceViewTwo"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_centerHorizontal="true" />
-
         <Button
             android:id="@+id/btnRedrawBottomTwo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:text="redraw bottom" />
+
+        <FrameLayout
+            android:id="@+id/surfaceViewFrame"
+            android:layout_width="280dp"
+            android:layout_height="280dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center">
+
+            <Button
+                android:id="@+id/buttonOne"
+                android:layout_width="92dp"
+                android:layout_height="140dp"
+                android:layout_gravity="left|top" />
+
+            <Button
+                android:id="@+id/buttonTopMiddle"
+                android:layout_width="92dp"
+                android:layout_height="140dp"
+                android:layout_gravity="center_horizontal|top" />
+
+            <Button
+                android:id="@+id/buttonTwo"
+                android:layout_width="92dp"
+                android:layout_height="140dp"
+                android:layout_gravity="right|top" />
+
+            <Button
+                android:id="@+id/buttonThree"
+                android:layout_width="92dp"
+                android:layout_height="140dp"
+                android:layout_gravity="right|bottom" />
+
+            <Button
+                android:id="@+id/buttonBottomMiddle"
+                android:layout_width="92dp"
+                android:layout_height="140dp"
+                android:layout_gravity="center_horizontal|bottom" />
+
+            <Button
+                android:id="@+id/buttonFour"
+                android:layout_width="92dp"
+                android:layout_height="140dp"
+                android:layout_gravity="left|bottom" />
+
+            <bkoruznjak.from.hr.androidnarodniconcept.SecondCustomSurfaceView
+                android:id="@+id/surfaceViewTwo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="40dp" />
+
+        </FrameLayout>
     </RelativeLayout>
 </layout>

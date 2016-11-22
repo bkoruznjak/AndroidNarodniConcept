@@ -20,23 +20,23 @@
 
         <Button
             android:id="@+id/btnSecondTest"
-            android:layout_below="@+id/btnFirstTest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/btnFirstTest"
             android:text="Test 2" />
 
         <Button
             android:id="@+id/btnThirdTest"
-            android:layout_below="@+id/btnSecondTest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Test 2" />
+            android:layout_below="@+id/btnSecondTest"
+            android:text="Test 3" />
 
         <Button
             android:id="@+id/btnFourthTest"
-            android:layout_below="@+id/btnThirdTest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Test 2" />
+            android:layout_below="@+id/btnThirdTest"
+            android:text="Test 4" />
     </RelativeLayout>
 </layout>
