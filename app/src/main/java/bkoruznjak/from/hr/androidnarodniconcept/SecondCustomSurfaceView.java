@@ -22,7 +22,7 @@ import android.view.SurfaceView;
 
 public class SecondCustomSurfaceView extends SurfaceView {
 
-    private static final int TARGET_FPS = 60;
+    private static final int TARGET_FPS = 80;
     final int INITIAL_BITMAP_SCALE = 300;
     public boolean isRunning = false;
     GraphicCircleFudge redFudge;
@@ -75,7 +75,6 @@ public class SecondCustomSurfaceView extends SurfaceView {
                 holderSize = fudgeHolder.getSurfaceFrame().right;
                 Log.d("bbb", "size:" + holderSize);
                 redFudge = new GraphicCircleFudge(R.drawable.ic_red_particle, INITIAL_BITMAP_SCALE, holderSize);
-                redFudge.setMaxSize(200);
                 blueFudge = new GraphicCircleFudge(R.drawable.ic_blue_particle, INITIAL_BITMAP_SCALE, holderSize);
                 orangeFudge = new GraphicCircleFudge(R.drawable.ic_orange_particle, INITIAL_BITMAP_SCALE, holderSize);
                 pinkFudge = new GraphicCircleFudge(R.drawable.ic_pink_particle, INITIAL_BITMAP_SCALE, holderSize);
@@ -201,22 +200,34 @@ public class SecondCustomSurfaceView extends SurfaceView {
         private void draw(Canvas canvas) {
             canvas.drawColor(Color.WHITE);
 
-            blueFudge.handleSizeGrowth(1);
+            blueFudge.handleSizeGrowth(0.1f);
+            blueFudge.setMinSize(60);
+            blueFudge.setMaxSize(80);
             canvas.drawBitmap(blueFudge.getFudgeBitmap(), blueFudge.transformFudge(1), null);
 
-            pinkFudge.handleSizeGrowth(1);
+            pinkFudge.handleSizeGrowth(0.2f);
+            pinkFudge.setMinSize(50);
+            pinkFudge.setMaxSize(90);
             canvas.drawBitmap(pinkFudge.getFudgeBitmap(), pinkFudge.transformFudge(2), null);
 
-            greenFudge.handleSizeGrowth(1);
+            greenFudge.handleSizeGrowth(0.3f);
+            greenFudge.setMinSize(80);
+            greenFudge.setMaxSize(100);
             canvas.drawBitmap(greenFudge.getFudgeBitmap(), greenFudge.transformFudge(3), null);
 
-            orangeFudge.handleSizeGrowth(1);
+            orangeFudge.handleSizeGrowth(0.4f);
+            orangeFudge.setMinSize(80);
+            orangeFudge.setMaxSize(100);
             canvas.drawBitmap(orangeFudge.getFudgeBitmap(), orangeFudge.transformFudge(4), null);
 
-            grayFudge.handleSizeGrowth(1);
+            grayFudge.handleSizeGrowth(0.5f);
+            grayFudge.setMinSize(80);
+            grayFudge.setMaxSize(100);
             canvas.drawBitmap(grayFudge.getFudgeBitmap(), grayFudge.transformFudge(5), null);
 
-            redFudge.handleSizeGrowth(1);
+            redFudge.handleSizeGrowth(0.6f);
+            redFudge.setMinSize(70);
+            redFudge.setMaxSize(100);
             canvas.drawBitmap(redFudge.getFudgeBitmap(), redFudge.transformFudge(6), null);
 
             canvas.drawPath(mInnerRoundedPath, mStrokePaint);
@@ -234,7 +245,7 @@ public class SecondCustomSurfaceView extends SurfaceView {
         private Matrix morphMatrix;
         private int minSizeScale = 1;
         private int maxSizeScale = 100;
-        private int currentSize = 2;
+        private float currentSize = 2f;
         private boolean isGrowing;
 
         public GraphicCircleFudge(int resurceId, final int INITIAL_BITMAP_SCALE, final int SURFACE_SIZE) {
@@ -277,7 +288,7 @@ public class SecondCustomSurfaceView extends SurfaceView {
             return this.bmpScaledIcon;
         }
 
-        public void handleSizeGrowth(int sizeDelta) {
+        public void handleSizeGrowth(float sizeDelta) {
             if (currentSize == maxSizeScale) {
                 isGrowing = false;
             }
@@ -295,19 +306,19 @@ public class SecondCustomSurfaceView extends SurfaceView {
 
         public Matrix transformFudge(int position) {
             morphMatrix.reset();
-            morphMatrix.postScale(1f + ((float) currentSize / 100), 1f + ((float) currentSize / 100));
+            morphMatrix.postScale(1f + (currentSize / 100), 1f + (currentSize / 100));
             switch (position) {
                 case 1:
                     //upper left corner
-                    morphMatrix.postTranslate(-halfBitmapSize - currentSize, QUARTER_SURFACE_SIZE - (halfBitmapSize + currentSize));
+                    morphMatrix.postTranslate(-halfBitmapSize - currentSize - 40, QUARTER_SURFACE_SIZE - (halfBitmapSize + currentSize + 40));
                     break;
                 case 2:
                     //top corner
-                    morphMatrix.postTranslate(HALF_SURFACE_SIZE - (halfBitmapSize + currentSize), -halfBitmapSize - currentSize);
+                    morphMatrix.postTranslate(HALF_SURFACE_SIZE - (halfBitmapSize + currentSize + 40), -halfBitmapSize - currentSize - 40);
                     break;
                 case 3:
                     //upper right corner
-                    morphMatrix.postTranslate(SURFACE_SIZE - (halfBitmapSize + currentSize), QUARTER_SURFACE_SIZE - (halfBitmapSize + currentSize));
+                    morphMatrix.postTranslate(SURFACE_SIZE - (halfBitmapSize + currentSize - 40), QUARTER_SURFACE_SIZE - (halfBitmapSize + currentSize + 80));
                     break;
                 case 4:
                     //lower right corner
@@ -319,7 +330,7 @@ public class SecondCustomSurfaceView extends SurfaceView {
                     break;
                 case 6:
                     //lower left corner
-                    morphMatrix.postTranslate(-halfBitmapSize - currentSize, THREE_QUARTERS_SURFACE_SIZE - (halfBitmapSize + currentSize));
+                    morphMatrix.postTranslate(-halfBitmapSize - currentSize - 80, THREE_QUARTERS_SURFACE_SIZE - (halfBitmapSize + currentSize));
                     break;
                 default:
                     break;
