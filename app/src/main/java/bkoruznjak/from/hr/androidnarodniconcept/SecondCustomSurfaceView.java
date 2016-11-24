@@ -27,7 +27,7 @@ public class SecondCustomSurfaceView extends SurfaceView {
     public boolean isRunning = false;
     GraphicCircleFudge redFudge;
     GraphicCircleFudge blueFudge;
-    GraphicCircleFudge pinkFudge;
+    GraphicCircleFudge purpleFudge;
     GraphicCircleFudge orangeFudge;
     GraphicCircleFudge grayFudge;
     GraphicCircleFudge greenFudge;
@@ -73,13 +73,13 @@ public class SecondCustomSurfaceView extends SurfaceView {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
                 holderSize = fudgeHolder.getSurfaceFrame().right;
-                Log.d("bbb", "size:" + holderSize);
                 redFudge = new GraphicCircleFudge(R.drawable.ic_red_particle, INITIAL_BITMAP_SCALE, holderSize);
                 blueFudge = new GraphicCircleFudge(R.drawable.ic_blue_particle, INITIAL_BITMAP_SCALE, holderSize);
                 orangeFudge = new GraphicCircleFudge(R.drawable.ic_orange_particle, INITIAL_BITMAP_SCALE, holderSize);
-                pinkFudge = new GraphicCircleFudge(R.drawable.ic_pink_particle, INITIAL_BITMAP_SCALE, holderSize);
-                grayFudge = new GraphicCircleFudge(R.drawable.ic_gray_perticle, INITIAL_BITMAP_SCALE, holderSize);
+                purpleFudge = new GraphicCircleFudge(R.drawable.ic_purple_particle, INITIAL_BITMAP_SCALE, holderSize);
+                grayFudge = new GraphicCircleFudge(R.drawable.ic_gray_particle, INITIAL_BITMAP_SCALE, holderSize);
                 greenFudge = new GraphicCircleFudge(R.drawable.ic_green_particle, INITIAL_BITMAP_SCALE, holderSize);
+
                 mInnerRoundedPath = getRoundedPath(0f, 0f, holderSize, holderSize, 30f, 30f, false);
                 mStrokePaint = new Paint();
                 mStrokePaint.setColor(Color.WHITE);
@@ -101,23 +101,19 @@ public class SecondCustomSurfaceView extends SurfaceView {
     }
 
     public void start() {
-        Log.d("bbb", "starting");
         if (isRunning) {
             return;
         }
         if (mRenderThread == null || !mRenderThread.isAlive())
-            Log.d("bbb", "new thread");
-        mRenderThread = new SecondCustomSurfaceView.RenderThread(getHolder());
+            mRenderThread = new SecondCustomSurfaceView.RenderThread(getHolder());
         isRunning = true;
         mRenderThread.start();
     }
 
 
     public void stop() {
-        Log.d("bbb", "stopping");
         isRunning = false;
         if (mRenderThread != null) {
-            Log.d("bbb", "interuppting thread");
             mRenderThread.interrupt();
         }
         mRenderThread = null;
@@ -169,6 +165,68 @@ public class SecondCustomSurfaceView extends SurfaceView {
         return path;
     }
 
+    public void growFudge(int fudgeId) {
+        switch (fudgeId) {
+            case 1:
+                Log.d("bbb", "need to grow blue fudge:");
+                blueFudge.setMaxSize(180);
+                purpleFudge.setMaxSize(40);
+                greenFudge.setMaxSize(40);
+                orangeFudge.setMaxSize(40);
+                grayFudge.setMaxSize(40);
+                redFudge.setMaxSize(40);
+                break;
+            case 2:
+                Log.d("bbb", "need to grow purple fudge:");
+                blueFudge.setMaxSize(40);
+                purpleFudge.setMaxSize(180);
+                greenFudge.setMaxSize(40);
+                orangeFudge.setMaxSize(40);
+                grayFudge.setMaxSize(40);
+                redFudge.setMaxSize(40);
+                break;
+            case 3:
+                Log.d("bbb", "need to grow green fudge:");
+                blueFudge.setMaxSize(40);
+                purpleFudge.setMaxSize(40);
+                greenFudge.setMaxSize(180);
+                orangeFudge.setMaxSize(40);
+                grayFudge.setMaxSize(40);
+                redFudge.setMaxSize(40);
+                break;
+            case 4:
+                Log.d("bbb", "need to grow orange fudge:");
+                blueFudge.setMaxSize(40);
+                purpleFudge.setMaxSize(40);
+                greenFudge.setMaxSize(40);
+                orangeFudge.setMaxSize(180);
+                grayFudge.setMaxSize(40);
+                redFudge.setMaxSize(40);
+                break;
+            case 5:
+                Log.d("bbb", "need to grow gray fudge:");
+                blueFudge.setMaxSize(40);
+                purpleFudge.setMaxSize(40);
+                greenFudge.setMaxSize(40);
+                orangeFudge.setMaxSize(40);
+                grayFudge.setMaxSize(180);
+                redFudge.setMaxSize(40);
+                break;
+            case 6:
+                Log.d("bbb", "need to grow red fudge:");
+                blueFudge.setMaxSize(40);
+                purpleFudge.setMaxSize(40);
+                greenFudge.setMaxSize(40);
+                orangeFudge.setMaxSize(40);
+                grayFudge.setMaxSize(40);
+                redFudge.setMaxSize(180);
+                break;
+            default:
+                break;
+        }
+
+    }
+
     private class RenderThread extends Thread {
         private SurfaceHolder surfaceHolder;
 
@@ -198,39 +256,26 @@ public class SecondCustomSurfaceView extends SurfaceView {
         }
 
         private void draw(Canvas canvas) {
+//            canvas.save();
             canvas.drawColor(Color.WHITE);
 
-            blueFudge.handleSizeGrowth(0.1f);
-            blueFudge.setMinSize(60);
-            blueFudge.setMaxSize(80);
-            canvas.drawBitmap(blueFudge.getFudgeBitmap(), blueFudge.transformFudge(1), null);
-
-            pinkFudge.handleSizeGrowth(0.2f);
-            pinkFudge.setMinSize(50);
-            pinkFudge.setMaxSize(90);
-            canvas.drawBitmap(pinkFudge.getFudgeBitmap(), pinkFudge.transformFudge(2), null);
-
-            greenFudge.handleSizeGrowth(0.3f);
-            greenFudge.setMinSize(80);
-            greenFudge.setMaxSize(100);
+            greenFudge.handleSizeGrowth(1f);
             canvas.drawBitmap(greenFudge.getFudgeBitmap(), greenFudge.transformFudge(3), null);
-
-            orangeFudge.handleSizeGrowth(0.4f);
-            orangeFudge.setMinSize(80);
-            orangeFudge.setMaxSize(100);
+            orangeFudge.handleSizeGrowth(1f);
             canvas.drawBitmap(orangeFudge.getFudgeBitmap(), orangeFudge.transformFudge(4), null);
 
-            grayFudge.handleSizeGrowth(0.5f);
-            grayFudge.setMinSize(80);
-            grayFudge.setMaxSize(100);
-            canvas.drawBitmap(grayFudge.getFudgeBitmap(), grayFudge.transformFudge(5), null);
+            blueFudge.handleSizeGrowth(1f);
+            canvas.drawBitmap(blueFudge.getFudgeBitmap(), blueFudge.transformFudge(1), null);
+            purpleFudge.handleSizeGrowth(1f);
+            canvas.drawBitmap(purpleFudge.getFudgeBitmap(), purpleFudge.transformFudge(2), null);
 
-            redFudge.handleSizeGrowth(0.6f);
-            redFudge.setMinSize(70);
-            redFudge.setMaxSize(100);
+            grayFudge.handleSizeGrowth(1f);
+            canvas.drawBitmap(grayFudge.getFudgeBitmap(), grayFudge.transformFudge(5), null);
+            redFudge.handleSizeGrowth(1f);
             canvas.drawBitmap(redFudge.getFudgeBitmap(), redFudge.transformFudge(6), null);
 
             canvas.drawPath(mInnerRoundedPath, mStrokePaint);
+//            canvas.restore();
         }
     }
 
@@ -239,6 +284,7 @@ public class SecondCustomSurfaceView extends SurfaceView {
         private final int HALF_SURFACE_SIZE;
         private final int QUARTER_SURFACE_SIZE;
         private final int THREE_QUARTERS_SURFACE_SIZE;
+        private final int GROWTH_BUFFER_DIFFERENCE = 20;
         private Bitmap bmpIconOriginal;
         private Bitmap bmpScaledIcon;
         private int halfBitmapSize;
@@ -262,10 +308,21 @@ public class SecondCustomSurfaceView extends SurfaceView {
 
         public synchronized void setMaxSize(int maxSize) {
             //we do not want to mess up the growth that may be running
-            if (currentSize > maxSize && isGrowing) {
-                currentSize = maxSize;
+            if (maxSize < currentSize && isGrowing) {
+                isGrowing = false;
+                this.maxSizeScale = maxSize;
+                this.minSizeScale = maxSize - GROWTH_BUFFER_DIFFERENCE;
+            } else if (isGrowing) {
+                this.maxSizeScale = maxSize;
+                this.minSizeScale = maxSize - GROWTH_BUFFER_DIFFERENCE;
+            } else if ((maxSize - GROWTH_BUFFER_DIFFERENCE) > currentSize && !isGrowing) {
+                isGrowing = true;
+                this.minSizeScale = maxSize - GROWTH_BUFFER_DIFFERENCE;
+                this.maxSizeScale = maxSize;
+            } else if (!isGrowing) {
+                this.minSizeScale = maxSize - GROWTH_BUFFER_DIFFERENCE;
+                this.maxSizeScale = maxSize;
             }
-            this.maxSizeScale = maxSize;
         }
 
         public synchronized void setMinSize(int minSize) {
@@ -274,6 +331,7 @@ public class SecondCustomSurfaceView extends SurfaceView {
                 currentSize = minSize;
             }
             this.minSizeScale = minSize;
+            this.maxSizeScale = minSize + 20;
         }
 
         public boolean isGrowing() {
@@ -326,7 +384,7 @@ public class SecondCustomSurfaceView extends SurfaceView {
                     break;
                 case 5:
                     //bottom corner
-                    morphMatrix.postTranslate(HALF_SURFACE_SIZE - (halfBitmapSize + currentSize), SURFACE_SIZE - (halfBitmapSize + currentSize));
+                    morphMatrix.postTranslate(HALF_SURFACE_SIZE - (halfBitmapSize + currentSize + 40), SURFACE_SIZE - (halfBitmapSize + currentSize));
                     break;
                 case 6:
                     //lower left corner

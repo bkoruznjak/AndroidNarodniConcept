@@ -8,7 +8,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
@@ -28,6 +27,9 @@ public class CustomRectangle extends View {
     int yellowColor = Color.argb(255, 251, 186, 51);
     int grayColor = Color.argb(255, 127, 118, 101);
     int redColor = Color.argb(255, 230, 5, 19);
+    private FudgeClickListener mFudgeClickListener;
+    private boolean isButtonPressed;
+    private int mButtonColor;
 
     public CustomRectangle(Context context) {
         super(context);
@@ -92,6 +94,7 @@ public class CustomRectangle extends View {
             }
             canvas.drawPath(zonePath, fillPaint);
             canvas.drawPath(zonePath, mStrokePaint);
+
 
         }
 
@@ -160,34 +163,91 @@ public class CustomRectangle extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        int color = canvasBitmap.getPixel((int) event.getX(), (int) event.getY());
-        Log.d("bbb", "color :" + color);
-
-        if (color == blueColor) {
-            Log.d("bbb", "blue pressed");
+        float eventX = event.getX();
+        float eventY = event.getY();
+        if (event.getAction() == MotionEvent.ACTION_DOWN && !isButtonPressed) {
+            isButtonPressed = true;
+            mButtonColor = determineButtonColorFromPixel(eventX, eventY);
+            handleButtonPress();
         }
 
-        if (color == purpleColor) {
-            Log.d("bbb", "purple pressed");
+        if (event.getAction() == MotionEvent.ACTION_MOVE && isButtonPressed) {
+            int color = determineButtonColorFromPixel(eventX, eventY);
+            if (Color.WHITE == color) {
+                isButtonPressed = false;
+                handleButtonPress();
+            }
         }
 
-        if (color == greenColor) {
-            Log.d("bbb", "green pressed");
+        if (event.getAction() == MotionEvent.ACTION_UP && isButtonPressed) {
+            isButtonPressed = false;
+            mButtonColor = determineButtonColorFromPixel(eventX, eventY);
+            handleButtonPress();
+        }
+        return true;
+    }
+
+    private int determineButtonColorFromPixel(float xPixel, float yPixel) {
+        return canvasBitmap.getPixel((int) xPixel, (int) yPixel);
+    }
+
+    private void handleButtonPress() {
+
+        if (isButtonPressed) {
+            if (mButtonColor == blueColor) {
+            }
+
+            if (mButtonColor == purpleColor) {
+            }
+
+            if (mButtonColor == greenColor) {
+            }
+
+            if (mButtonColor == yellowColor) {
+            }
+
+            if (mButtonColor == grayColor) {
+            }
+
+            if (mButtonColor == redColor) {
+            }
+
+        } else if (mFudgeClickListener != null) {
+            if (mButtonColor == blueColor) {
+                mFudgeClickListener.onFudgePressed(1);
+            }
+
+            if (mButtonColor == purpleColor) {
+                mFudgeClickListener.onFudgePressed(2);
+            }
+
+            if (mButtonColor == greenColor) {
+                mFudgeClickListener.onFudgePressed(3);
+            }
+
+            if (mButtonColor == yellowColor) {
+                mFudgeClickListener.onFudgePressed(4);
+            }
+
+            if (mButtonColor == grayColor) {
+                mFudgeClickListener.onFudgePressed(5);
+            }
+
+            if (mButtonColor == redColor) {
+                mFudgeClickListener.onFudgePressed(6);
+            }
         }
 
-        if (color == yellowColor) {
-            Log.d("bbb", "yellow pressed");
-        }
 
-        if (color == grayColor) {
-            Log.d("bbb", "gray pressed");
-        }
+    }
 
-        if (color == redColor) {
-            Log.d("bbb", "red pressed");
-        }
+    public void registerFudgeClickListener(FudgeClickListener listener) {
+        this.mFudgeClickListener = listener;
+    }
 
-//        return super.onTouchEvent(event);
-        return false;
+    public void unregisterFudgeClickListener() {
+        if (mFudgeClickListener != null) {
+            mFudgeClickListener = null;
+        }
     }
 }

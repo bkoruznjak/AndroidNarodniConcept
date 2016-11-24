@@ -19,26 +19,27 @@ import android.view.SurfaceView;
 public class CustomSurfaceView extends SurfaceView {
 
     public static final float FRAME_RATIO = 1.25f;
-    private SurfaceHolder surfaceHolder;
     /**
      * emo bitmaps start
      */
     final int INITIAL_BITMAP_SCALE = 300;
+    Point screenSize;
+    int[] locationXY;
+    int leftOffset;
+    int topOffset;
+    int startX;
+    int startY;
+    private SurfaceHolder surfaceHolder;
     private Bitmap bmpRedIconOriginal;
     private Bitmap bmpRedIcon;
-
     private Bitmap bmpBlueIconOriginal;
     private Bitmap bmpBlueIcon;
-
     private Bitmap bmpOrangeIconOriginal;
     private Bitmap bmpOrangeIcon;
-
     private Bitmap bmpPinkIconOriginal;
     private Bitmap bmpPinkIcon;
-
     private Bitmap bmpGreenIconOriginal;
     private Bitmap bmpGreenIcon;
-
     private Bitmap bmpRedIconOriginalTwo;
     private Bitmap bmpRedIconTwo;
     /**
@@ -46,14 +47,6 @@ public class CustomSurfaceView extends SurfaceView {
      */
     private Rect mFrameToDraw;
     private RectF whereToDraw;
-    Point screenSize;
-    int[] locationXY;
-
-    int leftOffset;
-    int topOffset;
-
-    int startX;
-    int startY;
 
     public CustomSurfaceView(Context context) {
         super(context);
@@ -100,7 +93,7 @@ public class CustomSurfaceView extends SurfaceView {
         bmpOrangeIcon = Bitmap.createScaledBitmap(bmpOrangeIconOriginal, INITIAL_BITMAP_SCALE, INITIAL_BITMAP_SCALE, false);
 
         bmpPinkIconOriginal = BitmapFactory.decodeResource(getResources(),
-                R.drawable.ic_pink_particle);
+                R.drawable.ic_purple_particle);
 
         bmpPinkIcon = Bitmap.createScaledBitmap(bmpPinkIconOriginal, INITIAL_BITMAP_SCALE, INITIAL_BITMAP_SCALE, false);
 

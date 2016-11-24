@@ -5,11 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceHolder;
-import android.view.View;
 
 import bkoruznjak.from.hr.androidnarodniconcept.databinding.ActivityFourthTestBinding;
 
-public class FourthTestActivity extends AppCompatActivity implements SurfaceHolder.Callback {
+public class FourthTestActivity extends AppCompatActivity implements SurfaceHolder.Callback, FudgeClickListener {
 
     ActivityFourthTestBinding binding;
 
@@ -17,12 +16,6 @@ public class FourthTestActivity extends AppCompatActivity implements SurfaceHold
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_fourth_test);
-        binding.btnRedrawBottomThree.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("bbb", "button clicked");
-            }
-        });
     }
 
     @Override
@@ -30,6 +23,7 @@ public class FourthTestActivity extends AppCompatActivity implements SurfaceHold
         super.onResume();
         Log.d("bbb", "on resume");
         binding.surfaceViewCustom.getHolder().addCallback(this);
+        binding.btnCustomRectangle.registerFudgeClickListener(this);
     }
 
     @Override
@@ -40,6 +34,7 @@ public class FourthTestActivity extends AppCompatActivity implements SurfaceHold
             binding.surfaceViewCustom.stop();
         }
         binding.surfaceViewCustom.getHolder().removeCallback(this);
+        binding.btnCustomRectangle.unregisterFudgeClickListener();
     }
 
     @Override
@@ -63,4 +58,13 @@ public class FourthTestActivity extends AppCompatActivity implements SurfaceHold
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
 
     }
+
+    @Override
+    public void onFudgePressed(int fudgeId) {
+        if (binding.surfaceViewCustom.isRunning) {
+            binding.surfaceViewCustom.growFudge(fudgeId);
+        }
+
+    }
+
 }
