@@ -6,6 +6,7 @@ android {
     dataBinding.enabled = true
     defaultConfig {
         applicationId "bkoruznjak.from.hr.androidnarodniconcept"
+        vectorDrawables.useSupportLibrary = true
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
