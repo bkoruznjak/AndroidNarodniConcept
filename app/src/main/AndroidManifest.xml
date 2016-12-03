@@ -24,7 +24,8 @@
         <activity android:name=".ThirdTestActivity" />
         <activity
             android:name=".FourthTestActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".FifthActivity"></activity>
     </application>
 
 </manifest>

@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         binding.btnSecondTest.setOnClickListener(this);
         binding.btnThirdTest.setOnClickListener(this);
         binding.btnFourthTest.setOnClickListener(this);
+        binding.btnFifthTest.setOnClickListener(this);
     }
 
     @Override
@@ -45,6 +46,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(fourthTestIntent);
                 finish();
                 break;
+            case R.id.btnFifthTest:
+                Intent fifthTestIntent = new Intent(this, FifthActivity.class);
+                startActivity(fifthTestIntent);
+                finish();
 
         }
     }
